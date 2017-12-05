@@ -2,7 +2,7 @@
 
 library(shiny)
 library(dplyr)
-library(leaflet)
+library(plotly)
 library(ggplot2)
 
 state_data <- read.csv("data/stateEnergyData.csv", stringsAsFactors = FALSE)
@@ -29,7 +29,7 @@ shinyUI(navbarPage("Power in the 21st Century", id="nav",
                                     includeCSS("format.css")
                                   ),
                                   #refers to map data from server
-                                  leafletOutput("map", width = "100%", height = "100%"),
+                                  plotlyOutput("map"),
                                   
                                   #creates panel with css formating
                                   absolutePanel(id="controls", class = "panel", fixed = TRUE,
