@@ -2,7 +2,7 @@
 
 library(shiny)
 library(dplyr)
-library(leaflet)
+library(plotly)
 library(ggplot2)
 
 state_data <- read.csv("data/stateEnergyData.csv", stringsAsFactors = FALSE)
@@ -14,8 +14,9 @@ all_state_info <- full_join(state_data, state_coords, by = "State") %>%
   select(State, Total.Power, Photovoltaic, Concentrated.Solar.Power, Onshore.Wind, Offshore.Wind,
          Biopower.Solid, Biopower.Gaseous, Geothermal.Hydrothermal,
          EGS.Geothermal, Hydropower, Latitude, Longitude)
-
+national_option <- c("National")
 state_options <- as.vector(all_state_info$State)
+state_options <- append(national_option, state_options)
 company_options <- company_data %>% select(utility_name)
 company_options <- unique(as.vector(company_options$utility_name))
 energy_options <- colnames(all_state_info)[3:11]
@@ -28,7 +29,7 @@ shinyUI(navbarPage("Power in the 21st Century", id="nav",
                                     includeCSS("format.css")
                                   ),
                                   #refers to map data from server
-                                  leafletOutput("map", width = "100%", height = "100%"),
+                                  plotlyOutput("map"),
                                   
                                   #creates panel with css formating
                                   absolutePanel(id="controls", class = "panel", fixed = TRUE,
