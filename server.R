@@ -14,7 +14,7 @@ shinyServer(function(input, output) {
            Biopower.Solid, Biopower.Gaseous, Geothermal.Hydrothermal,
            EGS.Geothermal, Hydropower, Latitude, Longitude)
   
-  output$GETNAMEFROMUI <- renderLeaflet({
+  output$map <- renderLeaflet({
     
     #input$type for energy
     #input$company for companies
