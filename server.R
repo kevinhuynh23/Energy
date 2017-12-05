@@ -1,6 +1,9 @@
 library(shiny)
 library(dplyr)
 library(leaflet)
+library(RColorBrewer)
+library(scales)
+library(lattice)
 
 shinyServer(function(input, output) {
   
@@ -61,6 +64,18 @@ shinyServer(function(input, output) {
       setView(lng = -93.85, lat = 37.45, zoom = 4)
     
     
+  })
+  
+  # when map is clicked do something
+  observe({
+    leafletProxy("map") %>% clearPopups()
+    event <- input$map_shape_click
+    if (is.null(event))
+      return()
+    
+    isolate({
+      showZipcodePopup(event$id, event$lat, event$lng)
+    })
   })
 
 })
