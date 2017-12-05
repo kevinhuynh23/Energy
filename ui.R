@@ -9,7 +9,7 @@ company_options <- unique(select(company_data, company_data$utility_name))
 company_options <- company_options[, utility_name]
 energy_options <- colnames(all_state_info)[3:11]
 # Define UI for application that draws a map and floating sidebar
-ui <- shinyUI(navbarPage("Power in the 21st Century", id="nav",
+shinyUI(navbarPage("Power in the 21st Century", id="nav",
                          tabPanel("Energy Map",
                                   #Import css file
                                   div(class="outer"),

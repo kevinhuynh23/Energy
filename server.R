@@ -1,16 +1,6 @@
-
-library("shiny")
-library("dplyr")
-library("leaflet")
-
 library(shiny)
 library(dplyr)
 library(leaflet)
-
-state_data <-read.csv("data/stateEnergyData.csv")
-company_data <- read.csv("data/companies_and_state.csv")
-state_coords <- read.csv("data/States_Coordinates.csv")
-
 
 shinyServer(function(input, output) {
   
