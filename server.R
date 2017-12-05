@@ -8,19 +8,27 @@
 #
 
 library(shiny)
+library(dplyr)
+library(leaflet)
+
+state_data <-read.csv("./data/stateEnergyData.csv")
+company_data <- read.csv("./data/companyEnergyData.csv")
+state_coords <- read.csv("./data/States_Coordinates.csv")
 
 # Define server logic required to draw a histogram
-shinyServer(function(input, output) {
-   
-  output$distPlot <- renderPlot({
+server <- shinyServer(function(input, output) {
+  
+  filteredEnergyInput <- reactive({
     
-    # generate bins based on input$bins from ui.R
-    x    <- faithful[, 2] 
-    bins <- seq(min(x), max(x), length.out = input$bins + 1)
-    
-    # draw the histogram with the specified number of bins
-    hist(x, breaks = bins, col = 'darkgray', border = 'white')
-    
+  })
+  
+  output$map <- renderLeaflet({
+    leaflet() %>%
+      addTiles(
+        urlTemplate = "//{s}.tiles.mapbox.com/v3/jcheng.map-5ebohr46/{z}/{x}/{y}.png",
+        attribution = 'Maps by <a href="http://www.mapbox.com/">Mapbox</a>'
+      ) %>%
+      setView(lng = -93.85, lat = 37.45, zoom = 4)
   })
   
 })
