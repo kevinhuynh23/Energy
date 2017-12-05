@@ -5,6 +5,8 @@ library(RColorBrewer)
 library(scales)
 library(lattice)
 library(plotly)
+library("ggplot2")
+
 
 shinyServer(function(input, output) {
   
@@ -18,11 +20,16 @@ shinyServer(function(input, output) {
            Biopower.Solid, Biopower.Gaseous, Geothermal.Hydrothermal,
            EGS.Geothermal, Hydropower, Latitude, Longitude)
   
- 
+
   output$map <- renderPlotly({
-    
-    
-    
+    print( 
+      ggplotly(
+      ggplot(data = all_state_info, aes(Latitude, Longitude, color = Total.Power)) + 
+      geom_point() +
+      labs(title=paste0("Map")) +
+      coord_map()
+      )
+    )
     #input$type for energy
     #input$company for companies
     #input$state for states
@@ -57,29 +64,13 @@ shinyServer(function(input, output) {
       filter(utility_name == "City of Aberdeen") %>%
       select(state)
     
-    
-    
-    
-    
   })
+    
+    
+    
+
   
-  l <- list(color = toRGB("grey"), width = 0.5)
   
-  # specify map projection/options
-  g <- list(
-    scope = 'usa',
-    showlakes = TRUE,
-    lakecolor = toRGB('white')
-  )
-  
-  p <- plot_geo(all_state_info, locationmode = 'USA-states') %>%
-    add_trace( colors = 'Purples'
-    ) %>%
-    colorbar(title = "Millions USD") %>%
-    layout(
-      title = '2011 US Agriculture Exports by State<br>(Hover for breakdown)',
-      geo = g
-    )
   
 
 })
