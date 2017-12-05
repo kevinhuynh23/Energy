@@ -3,6 +3,15 @@ library("shiny")
 library("dplyr")
 library("leaflet")
 
+library(shiny)
+library(dplyr)
+library(leaflet)
+
+state_data <-read.csv("data/stateEnergyData.csv")
+company_data <- read.csv("data/companies_and_state.csv")
+state_coords <- read.csv("data/States_Coordinates.csv")
+
+
 shinyServer(function(input, output) {
   
   state_data <- read.csv("data/stateEnergyData.csv", stringsAsFactors = FALSE)
@@ -33,6 +42,7 @@ shinyServer(function(input, output) {
       #chosen_state_national table will contain info about all states
     }
     #the name of the data frame created, whether a state is chosen or National, will be the same
+
     
     #when national is chosen states are filtered out according to the slider's min and max Total Power levels
     #if one state is chosen, it will be shown if still in the range otherwise a blank map will be shown
@@ -53,6 +63,14 @@ shinyServer(function(input, output) {
     
     
     #map code
+    leaflet() %>%
+      addTiles(
+        urlTemplate = "//{s}.tiles.mapbox.com/v3/jcheng.map-5ebohr46/{z}/{x}/{y}.png",
+        attribution = 'Maps by <a href="http://www.mapbox.com/">Mapbox</a>'
+      ) %>%
+      setView(lng = -93.85, lat = 37.45, zoom = 4)
+    
     
   })
+
 })
