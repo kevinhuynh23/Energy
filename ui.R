@@ -29,7 +29,7 @@ shinyUI(navbarPage("Power in the 21st Century", id="nav",
                                     includeCSS("format.css")
                                   ),
                                   #refers to map data from server
-                                  plotlyOutput("map"),
+                                  renderPlotly("map"),
                                   
                                   #creates panel with css formating
                                   absolutePanel(id="controls", class = "panel", fixed = TRUE,
