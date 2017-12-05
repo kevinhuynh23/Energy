@@ -36,29 +36,8 @@ ui <- shinyUI(navbarPage("Power in the 21st Century", id="nav",
                                                                   max = 7200000, value = c(200000, 600000))))
                          )
   
-<<<<<<< HEAD
+
 
 )
 )
-=======
-  # Application title
-  titlePanel("Old Faithful Geyser Data"),
-  
-  # Sidebar with a slider input for number of bins 
-  sidebarLayout(
-    sidebarPanel(
-       sliderInput("bins",
-                   "Number of bins:",
-                   min = 1,
-                   max = 50,
-                   value = 30)
-    ),
-    
-    # Show a plot of the generated distribution
-    mainPanel(
-       plotOutput("distPlot"),
-       plotOutput("map")
-    )
-  )
-))
->>>>>>> 7dd4e2b4b6c6d299701b11528ee3175299574243
+
