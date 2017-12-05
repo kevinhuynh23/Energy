@@ -4,6 +4,7 @@ library(leaflet)
 library(RColorBrewer)
 library(scales)
 library(lattice)
+library(plotly)
 
 shinyServer(function(input, output) {
   
@@ -17,7 +18,10 @@ shinyServer(function(input, output) {
            Biopower.Solid, Biopower.Gaseous, Geothermal.Hydrothermal,
            EGS.Geothermal, Hydropower, Latitude, Longitude)
   
-  output$map <- renderLeaflet({
+ 
+  output$map <- renderPlotly({
+    
+    
     
     #input$type for energy
     #input$company for companies
@@ -27,7 +31,7 @@ shinyServer(function(input, output) {
     #by default the option chosen will be National
     if (input$state != 'National') {
       #if a state is chosen
-      chosen_state_national <- all_state_info %>% filter(State == input$state)
+      chosen_state_national <- all_state_info %>% filter(State == 'Washington')
       #chosen_state_national table will contain info only about that state
     } else {
       #if National is chosen
@@ -36,46 +40,46 @@ shinyServer(function(input, output) {
     }
     #the name of the data frame created, whether a state is chosen or National, will be the same
 
-    
     #when national is chosen states are filtered out according to the slider's min and max Total Power levels
     #if one state is chosen, it will be shown if still in the range otherwise a blank map will be shown
-    state_info_with_slider <- chosen_state_national %>% filter(Total.Power > input$power[1]) %>%
-      filter(Total.Power < input$power[2])
+    state_info_with_slider <- chosen_state_national %>% filter(Total.Power > 2089068) %>%
+      filter(Total.Power < 3189068)
     
     #once an energy type is selected this data frame will contain data for either
     # all states (if National) or a single state (if state chosen) for only
     #the selected energy type
-    selected_energy_state <- chosen_state_national %>% select(State, input$type)
+    selected_energy_state <- chosen_state_national %>% select(State, Offshore.Wind)
     
     #once a company is selected this data frame will contain
     #all the states which the company covers
     #the state names are abbreviated in this data frame
     selected_states_for_company <- company_data %>% 
-      filter(utility_name == input$company) %>%
+      filter(utility_name == "City of Aberdeen") %>%
       select(state)
     
     
-    #map code
-    leaflet() %>%
-      addTiles(
-        urlTemplate = "//{s}.tiles.mapbox.com/v3/jcheng.map-5ebohr46/{z}/{x}/{y}.png",
-        attribution = 'Maps by <a href="http://www.mapbox.com/">Mapbox</a>'
-      ) %>%
-      setView(lng = -93.85, lat = 37.45, zoom = 4)
+    
     
     
   })
   
-  # when map is clicked do something
-  observe({
-    leafletProxy("map") %>% clearPopups()
-    event <- input$map_shape_click
-    if (is.null(event))
-      return()
-    
-    isolate({
-      showZipcodePopup(event$id, event$lat, event$lng)
-    })
-  })
+  l <- list(color = toRGB("grey"), width = 0.5)
+  
+  # specify map projection/options
+  g <- list(
+    scope = 'usa',
+    showlakes = TRUE,
+    lakecolor = toRGB('white')
+  )
+  
+  p <- plot_geo(all_state_info, locationmode = 'USA-states') %>%
+    add_trace( colors = 'Purples'
+    ) %>%
+    colorbar(title = "Millions USD") %>%
+    layout(
+      title = '2011 US Agriculture Exports by State<br>(Hover for breakdown)',
+      geo = g
+    )
+  
 
 })
