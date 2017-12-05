@@ -1,3 +1,4 @@
+
 library("shiny")
 library("dplyr")
 library("leaflet")
@@ -19,9 +20,9 @@ shinyServer(function(input, output) {
   state_coords <- read.csv("data/States_Coordinates.csv", stringsAsFactors = FALSE)
   
   all_state_info <- full_join(state_data, state_coords, by = "State") %>% 
-                    select(State, Total.Power, Photovoltaic, Concentrated.Solar.Power, Onshore.Wind, Offshore.Wind,
-                           Biopower.Solid, Biopower.Gaseous, Geothermal.Hydrothermal,
-                           EGS.Geothermal, Hydropower, Latitude, Longitude)
+    select(State, Total.Power, Photovoltaic, Concentrated.Solar.Power, Onshore.Wind, Offshore.Wind,
+           Biopower.Solid, Biopower.Gaseous, Geothermal.Hydrothermal,
+           EGS.Geothermal, Hydropower, Latitude, Longitude)
   
   output$GETNAMEFROMUI <- renderLeaflet({
     
@@ -46,7 +47,7 @@ shinyServer(function(input, output) {
     #when national is chosen states are filtered out according to the slider's min and max Total Power levels
     #if one state is chosen, it will be shown if still in the range otherwise a blank map will be shown
     state_info_with_slider <- chosen_state_national %>% filter(Total.Power > input$power[1]) %>%
-                              filter(Total.Power < input$power[2])
+      filter(Total.Power < input$power[2])
     
     #once an energy type is selected this data frame will contain data for either
     # all states (if National) or a single state (if state chosen) for only
@@ -57,11 +58,12 @@ shinyServer(function(input, output) {
     #all the states which the company covers
     #the state names are abbreviated in this data frame
     selected_states_for_company <- company_data %>% 
-                                   filter(utility_name == input$company) %>%
-                                   select(state)
-                  
+      filter(utility_name == input$company) %>%
+      select(state)
+    
     
     #map code
+    
   })
 
 })
