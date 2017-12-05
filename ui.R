@@ -16,8 +16,8 @@ all_state_info <- full_join(state_data, state_coords, by = "State") %>%
          EGS.Geothermal, Hydropower, Latitude, Longitude)
 
 state_options <- as.vector(all_state_info$State)
-#company_options <- company_data %>% select(utility_name)
-#company_options <- unique(as.vector(company_options$utility_name))
+company_options <- company_data %>% select(utility_name)
+company_options <- unique(as.vector(company_options$utility_name))
 energy_options <- colnames(all_state_info)[3:11]
 # Define UI for application that draws a map and floating sidebar
 shinyUI(navbarPage("Power in the 21st Century", id="nav",
@@ -39,12 +39,12 @@ shinyUI(navbarPage("Power in the 21st Century", id="nav",
                                   #Drop down for state options
                                   selectInput("state", "State", state_options),
                                   #Drop down for company options
-                                  #selectInput("company", "Company", company_options, selected = company_options[0]),
+                                  selectInput("company", "Company", company_options, selected = company_options[0]),
                                   #Radio buttons for type of energy
                                   radioButtons("type", "Energy Type", energy_options),
                                   #Slider for energy range
-                                  sliderInput("power", label = h3("Total Power Output (GWh)"), min = 1000000,
-                                                                  max = 7200000, value = c(200000, 600000)))
+                                  sliderInput("power", label = h3("Total Power Output (GWh)"), min = 100000,
+                                                                  max = 7200000, value = c(1000000, 6000000)))
                          ),
                          tabPanel("Energy Table",
                                   fluidRow(
