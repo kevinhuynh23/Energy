@@ -17,8 +17,8 @@ all_state_info <- full_join(state_data, state_coords, by = "State") %>%
 national_option <- c("National")
 state_options <- as.vector(all_state_info$State)
 state_options <- append(national_option, state_options)
-company_options <- company_data %>% select(utility_name)
-company_options <- unique(as.vector(company_options$utility_name))
+company_options <- company_data %>% select(Utility.Name)
+company_options <- unique(as.vector(company_options$Utility.Name))
 energy_options <- colnames(all_state_info)[2:11]
 # Define UI for application that draws a map and floating sidebar
 shinyUI(navbarPage("Power in the 21st Century", id="nav",

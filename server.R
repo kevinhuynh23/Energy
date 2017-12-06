@@ -50,8 +50,8 @@ shinyServer(function(input, output) {
 
     #when national is chosen states are filtered out according to the slider's min and max Total Power levels
     #if one state is chosen, it will be shown if still in the range otherwise a blank map will be shown
-    state_info_with_slider <- chosen_state_national %>% filter(Total.Power > input$power) %>%
-      filter(Total.Power < input$type)
+    #state_info_with_slider <- chosen_state_national %>% filter(Total.Power > input$power) %>%
+     # filter(Total.Power < input$type)
     
     #once an energy type is selected this data frame will contain data for either
     # all states (if National) or a single state (if state chosen) for only
