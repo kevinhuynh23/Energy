@@ -48,11 +48,6 @@ shinyUI(navbarPage("Power in the 21st Century", id="nav",
                                           radioButtons("type", "Energy Type", energy_options))
                    ),
                    tabPanel("Energy Table",
-                            fluidRow(
-                              column(3,
-                                     selectInput("states", "States", state_options)
-                              )
-                            ),
                             hr(),
                             fluidRow(
                               DT::dataTableOutput("energyTable")
