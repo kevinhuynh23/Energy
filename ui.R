@@ -22,6 +22,11 @@ company_options <- unique(as.vector(company_options$utility_name))
 energy_options <- colnames(all_state_info)[3:11]
 # Define UI for application that draws a map and floating sidebar
 shinyUI(navbarPage("Power in the 21st Century", id="nav",
+                         tabPanel("Overview", 
+                                  fluidPage(
+                                    includeMarkdown("Overview.md")
+                                  )
+                                  ),
                          tabPanel("Energy Map",
                                   #Import css file
                                   div(class="outer"),
