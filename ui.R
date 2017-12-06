@@ -1,5 +1,3 @@
-
-
 library(shiny)
 library(dplyr)
 library(plotly)
@@ -47,10 +45,7 @@ shinyUI(navbarPage("Power in the 21st Century", id="nav",
                                           #Drop down for company options
                                           selectInput("company", "Company", company_options, selected = company_options[0]),
                                           #Radio buttons for type of energy
-                                          radioButtons("type", "Energy Type", energy_options),
-                                          #Slider for energy range
-                                          sliderInput("power", label = h3("Total Power Output (GWh)"), min = 100000,
-                                                      max = 7200000, value = c(1000000, 6000000)))
+                                          radioButtons("type", "Energy Type", energy_options))
                    ),
                    tabPanel("Energy Table",
                             fluidRow(

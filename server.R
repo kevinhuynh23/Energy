@@ -75,4 +75,3 @@ shinyServer(function(input, output) {
   })
   output$energyTable <- DT::renderDataTable({all_state_info})  
 })
-
