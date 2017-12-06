@@ -26,6 +26,7 @@ shinyServer(function(input, output) {
     #input$company for companies
     #input$state for states
     #input$power for power
+    
     capFirst <- function(s) {
       gsub("(^|[[:space:]])([[:alpha:]])", "\\1\\U\\2", s, perl=TRUE)
     }
@@ -41,17 +42,17 @@ shinyServer(function(input, output) {
       #if a state is chosen
       chosen_state_national <- all_state_info %>% filter(State == input$state)
       #chosen_state_national table will contain info only about that state
-    } else {
+   } else {
       #if National is chosen
-      chosen_state_national <- all_state_info
+     chosen_state_national <- all_state_info
       #chosen_state_national table will contain info about all states
-    }
+   }
     #the name of the data frame created, whether a state is chosen or National, will be the same
 
     #when national is chosen states are filtered out according to the slider's min and max Total Power levels
     #if one state is chosen, it will be shown if still in the range otherwise a blank map will be shown
-    #state_info_with_slider <- chosen_state_national %>% filter(Total.Power > input$power) %>%
-     # filter(Total.Power < input$type)
+    state_info_with_slider <- chosen_state_national %>% filter(Total.Power > input$power) %>%
+      filter(Total.Power < input$power)
     
     #once an energy type is selected this data frame will contain data for either
     # all states (if National) or a single state (if state chosen) for only
@@ -74,27 +75,28 @@ shinyServer(function(input, output) {
     
     
     
-    stateCompany <- all_state_info %>%   #inner_join(c_data, all_state_info, by = "State")
+    stateCompany <- all_state_info %>%
       filter(all_state_info$State == selected_states_for_company$State)
       
     companyInfo <- inner_join(stateCompany, selected_states_for_company, by = "State")
     
     p <- ggplot() 
     g <- p + geom_polygon(data = choropleth2, aes(lng, lat, group = group, fill = SelectedEnergyType)) +
-      #geom_polygon(data = state_df, colour = "white", fill = NA) +
-      geom_point(aes(x = companyInfo$Longitude, y = companyInfo$Latitude,
-                     text = companyInfo$Utility.Name), 
-                 colour="red", alpha = 1/2) +
+      geom_point(aes(x = companyInfo$Longitude, y = companyInfo$Latitude,                     
+                text = companyInfo$Utility.Name), 
+                colour="red", alpha = 1/2, size=3) +
+      geom_point(data = chosen_state_national, aes(x = Longitude, y = Latitude), colour = 'white') +
       xlab('Longitude') + 
       ylab('Latitude')
     
-    g <- ggplotly(g)
+   g <- ggplotly(g)
     
+  
    g <- plotly_build(g)
-
    
     
   })
+  output$energyTable <- DT::renderDataTable({all_state_info})  
 
 })
 

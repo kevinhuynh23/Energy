@@ -1,0 +1,12 @@
+name: Energy
+title: Energy
+username:
+account: paraseli
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 245011
+bundleId: 1118342
+url: https://paraseli.shinyapps.io/Energy/
+when: 1512546036.29493
+asMultiple: FALSE
+asStatic: FALSE
